@@ -23,8 +23,10 @@ public class Carrinho {
         this.voucher = voucher;
     }
 
-    public void aplicarVoucher(Voucher voucher)
-    {
+    public void aplicarVoucher(Voucher voucher){
+        if (voucher == null) {
+            throw new IllegalArgumentException("O voucher precisa ser informado");
+        }
         this.voucher = voucher;
         this.voucherUtilizado = true;
         calcularValorCarrinho();
@@ -60,8 +62,10 @@ public class Carrinho {
         this.desconto = desconto;
     }
 
-    public boolean carrinhoItemExistente(CarrinhoItem item)
-    {
+    public boolean carrinhoItemExistente(CarrinhoItem item){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
+        }
         for(var i : itens){
             if(i.getProductId() == item.getProductId());
                 return true;
@@ -70,8 +74,10 @@ public class Carrinho {
         return false;
     }
 
-    public CarrinhoItem obterPorProdutoId(UUID produtoId)
-    {
+    public CarrinhoItem obterPorProdutoId(UUID produtoId){
+        if (produtoId == null) {
+            throw new IllegalArgumentException("O ID precisa ser informado");
+        }
         for(var i : itens){
             if(i.getProductId() == produtoId);
                 return i;
@@ -79,27 +85,26 @@ public class Carrinho {
         return null;
     }
 
-    public void AdicionarItem(CarrinhoItem item)
-    {
-        item.AtribuirCarrinho(this);
-
-        if (carrinhoItemExistente(item))
-        {
-            var itemExistente = obterPorProdutoId(item.getProductId());
-            itemExistente.AdicionarUnidades(item.getQuantidade());
-
-            item = itemExistente;
-            this.itens.remove(itemExistente);
+    public void AdicionarItem(CarrinhoItem item){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
         }
-
+        item.AtribuirCarrinho(this);
+        if (carrinhoItemExistente(item)){
+            var itemExistente = obterPorProdutoId(item.getProductId());
+                itemExistente.AdicionarUnidades(item.getQuantidade());
+                item = itemExistente;
+                this.itens.remove(itemExistente);
+            }
         this.itens.add(item);
         calcularValorCarrinho();
-    }
+        }
 
-    public void atualizarItem(CarrinhoItem item)
-    {
+    public void atualizarItem(CarrinhoItem item){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
+        }
         item.AtribuirCarrinho(this);
-
         var itemExistente = obterPorProdutoId(item.getProductId());
 
         this.itens.remove(itemExistente);
@@ -108,14 +113,18 @@ public class Carrinho {
         calcularValorCarrinho();
     }
 
-    public void atualizarUnidades(CarrinhoItem item, int unidades)
-    {
+    public void atualizarUnidades(CarrinhoItem item, int unidades){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
+        }
         item.AtualizarUnidades(unidades);
         atualizarItem(item);
     }
 
-    public void removerItem(CarrinhoItem item)
-    {
+    public void removerItem(CarrinhoItem item){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
+        }
         this.itens.remove(obterPorProdutoId(item.getProductId()));
         calcularValorCarrinho();
     }
