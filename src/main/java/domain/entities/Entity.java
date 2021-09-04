@@ -1,5 +1,6 @@
 package domain.entities;
 
+import java.util.List;
 import java.util.UUID;
 
 public abstract class Entity {
@@ -8,4 +9,5 @@ public abstract class Entity {
     public Entity() {
         id = UUID.randomUUID();
     }
+
 }

@@ -1,32 +1,43 @@
 package domain.entities;
 
-import domain.valueObjects.TipoDescontoVoucher;
+import domain.interfaces.IDesconto;
 
 import java.util.Date;
 
-public class Voucher {
+public abstract class Voucher implements IDesconto {
     private String codigo;
-    private Double percentual;
-    private Double valorDesconto;
     private int quantidade;
-    private TipoDescontoVoucher tipoDesconto;
     private Date dataCriacao;
-    private Date dataUtilizacao;
     private Date dataValidade;
     private boolean ativo;
     private boolean utilizado;
 
-    public TipoDescontoVoucher getTipoDesconto() {
-        return tipoDesconto;
+
+    public Voucher(String codigo,
+                   int quantidade,
+                   Date dataValidade) {
+        if(codigo == null){
+            throw new IllegalArgumentException("O codigo não pode ser nulo");
+        }
+        if(dataValidade == null){
+            throw new IllegalArgumentException("A data de validade não pode ser nulo");
+        }
+        if(quantidade < 0){
+            throw new IllegalArgumentException("A quantidade não pode ser menor que zero");
+        }
+
+        this.codigo = codigo;
+        this.quantidade = quantidade;
+        this.dataValidade = dataValidade;
+        this.utilizado = false;
+        this.ativo = true;
+        dataCriacao = new Date();
     }
 
-    public Double getPercentual() {
-        return percentual;
+    public void desativar(){
+        this.ativo = false;
     }
 
-    public Double getValorDesconto() {
-        return valorDesconto;
-    }
 
     public int getQuantidade() {
         return quantidade;
@@ -34,10 +45,6 @@ public class Voucher {
 
     public Date getDataCriacao() {
         return dataCriacao;
-    }
-
-    public Date getDataUtilizacao() {
-        return dataUtilizacao;
     }
 
     public Date getDataValidade() {
