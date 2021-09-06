@@ -11,10 +11,7 @@ public class Produto extends Entity {
     private Date dataCriacao;
     private int quantidadeEstoque;
 
-    public Produto(String nome,
-                   String descricao,
-                   double valor,
-                   int quantidadeEstoque) {
+    public Produto(String nome, String descricao, double valor, int quantidadeEstoque) {
         if(nome == null){
             throw new IllegalArgumentException("O nome não pode ser nulo");
         }
@@ -27,7 +24,6 @@ public class Produto extends Entity {
         if(quantidadeEstoque < 0){
             throw new IllegalArgumentException("A quantidade estoque não pode ser menor que zero");
         }
-
 
         this.nome = nome;
         this.descricao = descricao;

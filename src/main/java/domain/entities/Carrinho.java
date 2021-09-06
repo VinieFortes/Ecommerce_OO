@@ -53,18 +53,17 @@ public class Carrinho extends Entity{
     {
         if (!voucherUtilizado) return;
 
-        var valorComDesconto = voucher.calcularTotalComDesconto(this.valorTotal);
+        double valorComDesconto = voucher.calcularTotalComDesconto(this.valorTotal);
 
         this.desconto = this.valorTotal - valorComDesconto;
 
         this.valorTotal = valorComDesconto;
     }
 
-    public boolean ItemExistente(CarrinhoItem item){
+    public boolean itemExistente(CarrinhoItem item){
         if (item == null) {
             throw new IllegalArgumentException("O item precisa ser informado");
         }
-
         for(var i : itens){
             if(i.getProductId() == item.getProductId())
                 return true;
@@ -85,14 +84,14 @@ public class Carrinho extends Entity{
         return null;
     }
 
-    public void AdicionarItem(CarrinhoItem item){
+    public void adicionarItem(CarrinhoItem item){
         if (item == null) {
             throw new IllegalArgumentException("O item precisa ser informado");
         }
 
         item.AtribuirCarrinho(this);
 
-        if (ItemExistente(item)){
+        if (itemExistente(item)){
             var itemJaExistente = obterPorProdutoId(item.getProductId());
             itemJaExistente.AdicionarUnidades(item.getQuantidade());
             atualizarItem(itemJaExistente);
@@ -108,7 +107,7 @@ public class Carrinho extends Entity{
 
         item.AtribuirCarrinho(this);
 
-        var itemExistente = obterPorProdutoId(item.getProductId());
+        CarrinhoItem itemExistente = obterPorProdutoId(item.getProductId());
 
         this.itens.remove(itemExistente);
         this.itens.add(item);

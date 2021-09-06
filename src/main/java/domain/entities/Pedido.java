@@ -5,16 +5,15 @@ import java.util.Date;
 import java.util.List;
 
 public class Pedido {
-    private double desconto;
-    private double valorTotal;
-    private Date dataPedido;
-    private PedidoStatus pedidoStatus;
-    private Cliente cliente;
-    private List<CarrinhoItem> pedidoItems;
+    private final double desconto;
+    private final double valorTotal;
+    private final Date dataPedido;
+    private final PedidoStatus pedidoStatus;
+    private final Cliente cliente;
+    private final List<CarrinhoItem> pedidoItems;
 
 
-    public Pedido(Cliente cliente,
-                  Carrinho carrinho) {
+    public Pedido(Cliente cliente, Carrinho carrinho) {
         if(cliente == null){
             throw new IllegalArgumentException("O cliente não pode ser nulo");
         }
@@ -31,22 +30,22 @@ public class Pedido {
     }
 
     public double getDesconto() {
-        return desconto;
+        return this.desconto;
     }
 
     public double getValorTotal() {
-        return valorTotal;
+        return this.valorTotal;
     }
 
     public Date getDataPedido() {
-        return dataPedido;
+        return this.dataPedido;
     }
 
     public PedidoStatus getPedidoStatus() {
-        return pedidoStatus;
+        return this.pedidoStatus;
     }
 
     public Cliente getCliente() {
-        return cliente;
+        return this.cliente;
     }
 }
