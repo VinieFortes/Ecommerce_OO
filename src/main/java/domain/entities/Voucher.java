@@ -13,9 +13,7 @@ public abstract class Voucher implements IDesconto {
     private boolean utilizado;
 
 
-    public Voucher(String codigo,
-                   int quantidade,
-                   Date dataValidade) {
+    public Voucher(String codigo, int quantidade, Date dataValidade) {
         if(codigo == null){
             throw new IllegalArgumentException("O codigo não pode ser nulo");
         }
@@ -31,7 +29,7 @@ public abstract class Voucher implements IDesconto {
         this.dataValidade = dataValidade;
         this.utilizado = false;
         this.ativo = true;
-        dataCriacao = new Date();
+        this.dataCriacao = new Date();
     }
 
     public void desativar(){
