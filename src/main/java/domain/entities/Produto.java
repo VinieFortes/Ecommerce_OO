@@ -66,4 +66,20 @@ public class Produto extends Entity {
     public UUID getId() {
         return this.getId();
     }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public int getQuantidadeEstoque() {
+        return quantidadeEstoque;
+    }
 }
