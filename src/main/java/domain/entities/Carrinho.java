@@ -2,6 +2,14 @@ package domain.entities;
 
 import java.util.List;
 
+/*
+ * Grupo
+ *
+ * Vinicius Fortes
+ * Yuri Dias
+ *
+ * */
+
 public class Carrinho extends Entity{
 
     private double valorTotal;

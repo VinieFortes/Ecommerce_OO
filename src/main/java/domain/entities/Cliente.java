@@ -4,6 +4,14 @@ import domain.interfaces.IAggregationRoot;
 import domain.valueObjects.Cpf;
 import domain.valueObjects.Email;
 
+/*
+ * Grupo
+ *
+ * Vinicius Fortes
+ * Yuri Dias
+ *
+ * */
+
 public class Cliente extends Entity  {
 
     private String nome;

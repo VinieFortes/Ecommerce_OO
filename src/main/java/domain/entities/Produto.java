@@ -1,5 +1,13 @@
 package domain.entities;
 
+/*
+ * Grupo
+ *
+ * Vinicius Fortes
+ * Yuri Dias
+ *
+ * */
+
 public class Produto extends Entity {
     private String nome;
     private String descricao;
