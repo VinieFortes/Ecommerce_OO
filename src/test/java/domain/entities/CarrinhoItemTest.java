@@ -18,7 +18,7 @@ class CarrinhoItemTest {
     }
 
     @Test
-    void construtor_deveRetornarExcecaoCasoQuantidadeSejaMenorQueZero(){
+    void construtor_deveRetornarExcessaoCasoQuantidadeSejaMenorQueZero(){
         var ex = assertThrows(IllegalArgumentException.class, () -> {
             new CarrinhoItem(-1, produtoValido);
         });
@@ -27,7 +27,7 @@ class CarrinhoItemTest {
     }
 
     @Test
-    void construtor_deveRetornarExcecaoCasoProdutoSejaNulo(){
+    void construtor_deveRetornarExcessaoCasoProdutoSejaNulo(){
         var ex = assertThrows(IllegalArgumentException.class, () -> {
             new CarrinhoItem(1, null);
         });
@@ -51,7 +51,7 @@ class CarrinhoItemTest {
     }
 
     @Test
-    void atribuirCarrinho_deveRetornarUmaExcecaoCasoCarrinhoForNulo(){
+    void atribuirCarrinho_deveRetornarUmaExcessaoCasoCarrinhoForNulo(){
         var ex = assertThrows(IllegalArgumentException.class, () -> {
             this.carrinhoItemValido.atribuirCarrinho(null);
         });
@@ -68,7 +68,7 @@ class CarrinhoItemTest {
     }
 
     @Test
-    void adicionarUnidades_deveRetornarExcecaoCasoAQuantidadeSejaMenorQueZero(){
+    void adicionarUnidades_deveRetornarExcessaoCasoAQuantidadeSejaMenorQueZero(){
         var ex = assertThrows(IllegalArgumentException.class, () -> {
             this.carrinhoItemValido.adicionarUnidades(-1);
         });
@@ -119,7 +119,7 @@ class CarrinhoItemTest {
     }
 
     @Test
-    void atualizarUnidades_deveSoltarExcecaoCasoUnidadesSejaMenorQueZero(){
+    void atualizarUnidades_deveSoltarExcessaoCasoUnidadesSejaMenorQueZero(){
         var ex = assertThrows(IllegalArgumentException.class, () -> {
             this.carrinhoItemValido.atualizarUnidades(-1);
         });

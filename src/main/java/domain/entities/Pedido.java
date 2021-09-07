@@ -35,12 +35,15 @@ public class Pedido {
         return this.valorTotal;
     }
 
-
     public PedidoStatus getPedidoStatus() {
         return this.pedidoStatus;
     }
 
     public Cliente getCliente() {
         return this.cliente;
+    }
+
+    public List<CarrinhoItem> getPedidoItems() {
+        return pedidoItems;
     }
 }

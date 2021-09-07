@@ -1,7 +1,5 @@
 package domain.entities;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Carrinho extends Entity{
@@ -46,6 +44,7 @@ public class Carrinho extends Entity{
         if (item == null) {
             throw new IllegalArgumentException("O item precisa ser informado");
         }
+
         for(var i : itens){
             if(i.getProdutoId().equals(item.getProdutoId()))
                 return true;
@@ -116,7 +115,7 @@ public class Carrinho extends Entity{
     }
 
 
-    ////////////////
+
     public Voucher getVoucher() {
         return voucher;
     }
@@ -132,15 +131,7 @@ public class Carrinho extends Entity{
         this.valorTotal = valorComDesconto;
     }
 
-    private void calcularValorCarrinho()
-    {
-        for (var item: itens) {
-            this.valorTotal += item.calcularValor();
-        }
-        calcularValorTotalDesconto();
-    }
-
-    private void atualizarItem(CarrinhoItem item){
+    public void atualizarItem(CarrinhoItem item){
         if (item == null) {
             throw new IllegalArgumentException("O item precisa ser informado");
         }
@@ -149,7 +140,18 @@ public class Carrinho extends Entity{
 
         CarrinhoItem itemExistente = obterPorProdutoId(item.getProdutoId());
 
-        this.itens.remove(itemExistente);
-        this.itens.add(item);
+        if(this.itens.remove(itemExistente)){
+            this.itens.add(item);
+        }
     }
+
+    private void calcularValorCarrinho()
+    {
+        for (var item: itens) {
+            this.valorTotal += item.calcularValor();
+        }
+        calcularValorTotalDesconto();
+    }
+
+
 }

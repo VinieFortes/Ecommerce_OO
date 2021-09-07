@@ -250,4 +250,64 @@ class CarrinhoTest {
 
         assertEquals(lista, carrinho.getListaProdutos());
     }
+
+    @Test
+    void getVouncher_deveRetornarOVoucher(){
+        var voucher = new VouncherValor("any", 1, new Date(), 1.0d);
+        var carrinho = new Carrinho(new ArrayList<CarrinhoItem>());
+        carrinho.aplicarVoucher(voucher);
+
+        assertEquals(voucher, carrinho.getVoucher());
+    }
+
+    @Test
+    void atualizarItem_deveSoltarUmExcessaoCasoItemForNulo(){
+        var produto = new Produto("camisa", "Tamanho M", 2, 1);
+        var carrinhoItem = new CarrinhoItem(2, produto);
+        var carrinho = new Carrinho(new ArrayList<CarrinhoItem>());
+
+        var ex = assertThrows(IllegalArgumentException.class, () -> {
+            carrinho.atualizarItem(null);
+        });
+
+        assertEquals("O item precisa ser informado", ex.getMessage());
+    }
+
+    @Test
+    void atualizarItem_deveAtribuirCarrinhoAoItem(){
+        var produto = new Produto("camisa", "Tamanho M", 2, 1);
+        var carrinhoItem = new CarrinhoItem(2, produto);
+        var carrinho = new Carrinho(new ArrayList<CarrinhoItem>());
+
+        carrinho.atualizarItem(carrinhoItem);
+
+        assertEquals(carrinho.getId(), carrinhoItem.getCarrinhoId());
+    }
+
+    @Test
+    void atualizarItem_deveSubstituirOItemComMesmoProduto(){
+        var produto = new Produto("camisa", "Tamanho M", 2, 1);
+        var listaItens = new ArrayList<CarrinhoItem>();
+        listaItens.add(new CarrinhoItem(2, produto));
+        var carrinho = new Carrinho(listaItens);
+        var novoItem =new CarrinhoItem(10, produto);
+
+        carrinho.atualizarItem(novoItem);
+
+        assertEquals(novoItem, listaItens.get(0));
+        assertEquals(1, listaItens.size());
+    }
+
+    @Test
+    void atualizarItem_naoDeveAdicionarOItemSeNaoExistirUmItemComMesmoProduto(){
+        var produto = new Produto("camisa", "Tamanho M", 2, 1);
+        var listaItens = new ArrayList<CarrinhoItem>();
+        var carrinho = new Carrinho(listaItens);
+        var novoItem =new CarrinhoItem(10, produto);
+
+        carrinho.atualizarItem(novoItem);
+
+        assertEquals(0, listaItens.size());
+    }
+
 }

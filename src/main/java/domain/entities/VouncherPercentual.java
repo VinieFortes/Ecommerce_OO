@@ -18,6 +18,10 @@ public class VouncherPercentual extends Voucher {
         this.percentual = percentual;
     }
 
+    public Double getPercentual() {
+        return percentual;
+    }
+
     @Override
     public double calcularTotalComDesconto(double valorBase) {
         return valorBase - (valorBase*percentual);

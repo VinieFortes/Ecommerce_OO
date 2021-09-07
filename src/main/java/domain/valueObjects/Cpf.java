@@ -17,4 +17,8 @@ public class Cpf {
 
         this.numero = numero;
     }
+
+    public String getNumero() {
+        return numero;
+    }
 }

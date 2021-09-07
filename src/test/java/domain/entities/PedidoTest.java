@@ -1,53 +1,88 @@
 package domain.entities;
 
+import domain.valueObjects.Cpf;
+import domain.valueObjects.Email;
+import domain.valueObjects.PedidoStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PedidoTest {
 
+    private Cliente clienteValido;
+
+    @BeforeEach
+    void setUp() {
+        this.clienteValido =
+                new Cliente(
+                "any",
+                new Email("any@mail.com"),
+                new Cpf("12312312390"),
+                new Endereco("Rua A", "Cidade B", "MG", "Brasil", "1111111"));
+
+    }
+
     @Test
-    void construtor_deveSoltarExcessaoCasoNomeForNulo(){
+    void construtor_deveSoltarExcessaoCasoClienteForNulo(){
         var ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Produto(null, "", 0.0d, 0);
+           new Pedido(null, new Carrinho(new ArrayList<>()));
         });
 
-        assertEquals("O nome não pode ser nulo", ex.getMessage());
+        assertEquals("O cliente não pode ser nulo", ex.getMessage());
     }
 
     @Test
-    void construtor_deveSoltarExcessaoCasoDescricaoForNulo(){
+    void construtor_deveSoltarExcessaoCasoCarrinhoForNulo(){
         var ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Produto("", null, 0.0d, 0);
+           new Pedido(this.clienteValido, null);
         });
 
-        assertEquals("A descrição não pode ser nulo", ex.getMessage());
+        assertEquals("O carrinho não pode ser nulo", ex.getMessage());
     }
 
     @Test
-    void construtor_deveSoltarExcessaoCasoValorForMenorQueZero(){
-        var ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Produto("", "", -1.0d, 0);
-        });
+    void construtor_deveSetarAFlagPedidoStatusComoPedidoIniciado(){
+        var pedido = new Pedido(this.clienteValido, new Carrinho(new ArrayList<>()));
 
-        assertEquals("O valor não pode ser menor que zero", ex.getMessage());
+        assertEquals(PedidoStatus.Iniciado, pedido.getPedidoStatus());
     }
 
     @Test
-    void construtor_deveSoltarExcessaoCasoQuantidadeEstoqueForMenorQueZero(){
-        var ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Produto("", "", 0.0d, -1);
-        });
+    void construtor_deveSetarClientePassadoPorParametro(){
+        var pedido = new Pedido(this.clienteValido, new Carrinho(new ArrayList<>()));
 
-        assertEquals("A quantidade estoque não pode ser menor que zero", ex.getMessage());
+        assertEquals(this.clienteValido, pedido.getCliente());
     }
 
     @Test
-    void construtor_naoDeveSoltarExcessaoCasoOsParametrosSejamValidos(){
-        var produto = new Produto("", "", 0.0d, 1);
+    void construtor_deveSetarListaDeItensPassadaNoCarrinho(){
+        var lista = new ArrayList<CarrinhoItem>();
+        var pedido = new Pedido(this.clienteValido, new Carrinho(lista));
 
-        assertNotNull(produto);
+        assertEquals(lista, pedido.getPedidoItems());
     }
 
+    @Test
+    void construtor_deveSetarValorTotalRetornadoPeloCarrinho(){
+        var lista = new ArrayList<CarrinhoItem>();
+        var carrinho = new Carrinho(lista);
+        var pedido = new Pedido(this.clienteValido, carrinho);
+
+        assertEquals(carrinho.getValorTotal(), pedido.getValorTotal());
+    }
+
+    @Test
+    void construtor_deveSetarValorDescontoRetornadoPeloCarrinho(){
+        var lista = new ArrayList<CarrinhoItem>();
+        var carrinho = new Carrinho(lista);
+        carrinho.aplicarVoucher(new VouncherValor("any", 1, new Date(), 1.0d));
+        var pedido = new Pedido(this.clienteValido, carrinho);
+
+        assertEquals(carrinho.getDesconto(), pedido.getDesconto());
+    }
 }

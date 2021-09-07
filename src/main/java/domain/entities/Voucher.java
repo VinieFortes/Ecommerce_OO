@@ -36,6 +36,7 @@ public abstract class Voucher implements IDesconto {
         this.ativo = false;
     }
 
+    public void utilizar() {this.utilizado = true; }
 
     public int getQuantidade() {
         return quantidade;
