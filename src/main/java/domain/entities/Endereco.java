@@ -9,6 +9,21 @@ public class Endereco {
     private String cep;
 
     public Endereco(String logadouro, String cidade, String UF, String pais, String cep) {
+        if(logadouro == null){
+            throw new IllegalArgumentException("O logadouro não pode ser nulo");
+        }
+        if(cidade == null){
+            throw new IllegalArgumentException("A cidade não pode ser nulo");
+        }
+        if(UF == null){
+            throw new IllegalArgumentException("A UF não pode ser nulo");
+        }
+        if(pais == null){
+            throw new IllegalArgumentException("O pais não pode ser nulo");
+        }
+        if(cep == null){
+            throw new IllegalArgumentException("O cep não pode ser nulo");
+        }
         this.logadouro = logadouro;
         this.cidade = cidade;
         this.UF = UF;

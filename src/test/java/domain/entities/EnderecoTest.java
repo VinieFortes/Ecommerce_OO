@@ -17,6 +17,52 @@ class EnderecoTest {
     }
 
     @Test
+    void deveRetornarLogadouroNulo() {
+        try{
+            Endereco endereco = new Endereco(null,"Juiz de Fora", "MG", "Brasil", "36036-900");
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals("O logadouro não pode ser nulo", e.getMessage());
+        }
+    }
+    @Test
+    void deveRetornarCidadeNulo() {
+        try{
+            Endereco endereco = new Endereco("Rua José Lourenço Kelmer",null, "MG", "Brasil", "36036-900");
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals("A cidade não pode ser nulo", e.getMessage());
+        }
+    }
+    @Test
+    void deveRetornarUFNulo() {
+        try{
+            Endereco endereco = new Endereco("Rua José Lourenço Kelmer","Juiz de Fora", null, "Brasil", "36036-900");
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals("A UF não pode ser nulo", e.getMessage());
+        }
+    }
+    @Test
+    void deveRetornarPaisNulo() {
+        try{
+            Endereco endereco = new Endereco("Rua José Lourenço Kelmer","Juiz de Fora", "MG", null, "36036-900");
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals("O pais não pode ser nulo", e.getMessage());
+        }
+    }
+    @Test
+    void deveRetornarCEPNulo() {
+        try{
+            Endereco endereco = new Endereco("Rua José Lourenço Kelmer","Juiz de Fora", "MG", "Brasil", null);
+            fail();
+        } catch (IllegalArgumentException e){
+            assertEquals("O cep não pode ser nulo", e.getMessage());
+        }
+    }
+
+    @Test
     void deveRetornarLogadouro() {
         assertEquals("Rua José Lourenço Kelmer", endereco.getLogadouro());
     }
