@@ -7,7 +7,6 @@ public class Email {
         if(endereco == null){
             throw new IllegalArgumentException("O endereco de email não pode ser nulo");
         }
-
         this.endereco = endereco;
     }
 }
