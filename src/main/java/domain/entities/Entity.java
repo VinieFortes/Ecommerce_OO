@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class Entity {
-    private UUID id;
+    protected String id;
 
     public Entity() {
-        id = UUID.randomUUID();
+        id = UUID.randomUUID().toString();
     }
 
 }

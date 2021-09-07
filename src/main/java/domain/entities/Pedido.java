@@ -7,7 +7,6 @@ import java.util.List;
 public class Pedido {
     private final double desconto;
     private final double valorTotal;
-    private final Date dataPedido;
     private final PedidoStatus pedidoStatus;
     private final Cliente cliente;
     private final List<CarrinhoItem> pedidoItems;
@@ -26,7 +25,6 @@ public class Pedido {
         this.pedidoItems = carrinho.getListaProdutos();
         this.valorTotal = carrinho.getValorTotal();
         this.desconto = carrinho.getDesconto();
-        this.dataPedido = new Date();
     }
 
     public double getDesconto() {
@@ -37,9 +35,6 @@ public class Pedido {
         return this.valorTotal;
     }
 
-    public Date getDataPedido() {
-        return this.dataPedido;
-    }
 
     public PedidoStatus getPedidoStatus() {
         return this.pedidoStatus;

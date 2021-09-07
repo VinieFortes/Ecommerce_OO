@@ -1,17 +1,14 @@
 package domain.entities;
 
-import java.util.Date;
-import java.util.UUID;
-
 public class Produto extends Entity {
     private String nome;
     private String descricao;
     private boolean ativo;
     private double valor;
-    private Date dataCriacao;
     private int quantidadeEstoque;
 
     public Produto(String nome, String descricao, double valor, int quantidadeEstoque) {
+        super();
         if(nome == null){
             throw new IllegalArgumentException("O nome não pode ser nulo");
         }
@@ -30,7 +27,6 @@ public class Produto extends Entity {
         this.valor = valor;
         this.quantidadeEstoque = quantidadeEstoque;
         this.ativo = true;
-        this.dataCriacao = new Date();
     }
 
     public Produto setValor(double valor) {
@@ -59,8 +55,8 @@ public class Produto extends Entity {
         return this.nome;
     }
 
-    public UUID getId() {
-        return this.getId();
+    public String getId() {
+        return this.id;
     }
 
     public String getDescricao() {
@@ -69,10 +65,6 @@ public class Produto extends Entity {
 
     public boolean isAtivo() {
         return ativo;
-    }
-
-    public Date getDataCriacao() {
-        return dataCriacao;
     }
 
     public int getQuantidadeEstoque() {

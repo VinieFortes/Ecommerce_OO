@@ -8,7 +8,6 @@ public class Email {
             throw new IllegalArgumentException("O endereco de email não pode ser nulo");
         }
 
-
         this.endereco = endereco;
     }
 }

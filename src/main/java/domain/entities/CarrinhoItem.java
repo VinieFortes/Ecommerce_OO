@@ -9,43 +9,47 @@ public class CarrinhoItem extends Entity {
     private int quantidade;
 
     public CarrinhoItem(int quantidade, Produto produto) {
+        if(quantidade < 0){
+            throw new IllegalArgumentException("A Quantidade não pode ser menor que zero");
+        }
+        if (produto == null) {
+            throw new IllegalArgumentException("O produto não pode ser nulo");
+        }
+
         this.quantidade = quantidade;
         this.produto = produto;
     }
 
-    public CarrinhoItem(Produto produto) {
-        this.produto = produto;
-    }
 
-    public Double CalcularValor()
+    public Double calcularValor()
     {
         return quantidade * produto.getValor();
     }
 
-    public void AtribuirCarrinho(Carrinho carrinho){
+    public void atribuirCarrinho(Carrinho carrinho){
         if(carrinho == null){
             throw new IllegalArgumentException("O carrinho não pode ser nulo");
         }
         this.carrinho = carrinho;
     }
 
-    public void AdicionarUnidades(int unidades)
+    public void adicionarUnidades(int unidades)
     {
-        if(quantidade < 0){
-            throw new IllegalArgumentException("A quantidade não pode ser menor que zero");
+        if(unidades  < 0){
+            throw new IllegalArgumentException("A unidade não pode ser menor que zero");
         }
-        quantidade += unidades;
+        this.quantidade += unidades;
     }
 
-    public void AtualizarUnidades(int unidades)
+    public void atualizarUnidades(int unidades)
     {
-        if(quantidade < 0){
-            throw new IllegalArgumentException("A quantidade não pode ser menor que zero");
+        if(unidades < 0){
+            throw new IllegalArgumentException("A unidade não pode ser menor que zero");
         }
-        quantidade = unidades;
+        this.quantidade = unidades;
     }
 
-    public UUID getProductId() {
+    public String getProdutoId() {
         return produto.getId();
     }
 
@@ -60,4 +64,6 @@ public class CarrinhoItem extends Entity {
     public double getValorProduto() {
         return produto.getValor();
     }
+
+    public String getCarrinhoId(){ return carrinho.getId(); }
 }

@@ -3,7 +3,6 @@ package domain.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Carrinho extends Entity{
 
@@ -13,14 +12,13 @@ public class Carrinho extends Entity{
     private Voucher voucher;
     private boolean voucherUtilizado;
 
-    public Carrinho(List<CarrinhoItem> itens, Voucher voucher) {
+    public Carrinho(List<CarrinhoItem> itens) {
+        if(itens == null){
+            throw new IllegalArgumentException("A lista de itens não pode ser nula");
+        }
         this.itens = itens;
-        this.voucher = voucher;
     }
 
-    public Carrinho() {
-        this.itens = new ArrayList<>();
-    }
 
     public void aplicarVoucher(Voucher voucher){
         if (voucher == null) {
@@ -31,6 +29,7 @@ public class Carrinho extends Entity{
         this.voucherUtilizado = true;
     }
 
+
     public double getValorTotal() {
         calcularValorCarrinho();
         return valorTotal;
@@ -38,15 +37,88 @@ public class Carrinho extends Entity{
 
     public double getDesconto() {
         calcularValorCarrinho();
-        return desconto;
+        return this.desconto;
     }
 
-    private void calcularValorCarrinho()
-    {
-        for (var item: itens) {
-            this.valorTotal += item.CalcularValor();
+
+
+    public boolean itemExistente(CarrinhoItem item){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
         }
-        calcularValorTotalDesconto();
+        for(var i : itens){
+            if(i.getProdutoId().equals(item.getProdutoId()))
+                return true;
+        }
+
+        return false;
+    }
+
+    public CarrinhoItem obterPorProdutoId(String produtoId){
+        if (produtoId == null) {
+            throw new IllegalArgumentException("O ID precisa ser informado");
+        }
+        for(var item : itens){
+            if(item.getProdutoId().equals(produtoId)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public void adicionarItem(CarrinhoItem item){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
+        }
+
+        item.atribuirCarrinho(this);
+
+        if (itemExistente(item)){
+            var itemJaExistente = obterPorProdutoId(item.getProdutoId());
+            itemJaExistente.adicionarUnidades(item.getQuantidade());
+            atualizarItem(itemJaExistente);
+        }else{
+            this.itens.add(item);
+        }
+    }
+
+
+
+    public void atualizarUnidades(CarrinhoItem item, int unidades){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
+        }
+        if(unidades < 0){
+            throw new IllegalArgumentException("A quantidade não pode ser menor que zero");
+        }
+        if(unidades == 0){
+            removerItem(item);
+            return;
+        }
+
+        item.atualizarUnidades(unidades);
+        atualizarItem(item);
+    }
+
+    public void removerItem(CarrinhoItem item){
+        if (item == null) {
+            throw new IllegalArgumentException("O item precisa ser informado");
+        }
+        this.itens.remove(item);
+    }
+
+    public List<CarrinhoItem> getListaProdutos() {
+        return itens;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+
+    ////////////////
+    public Voucher getVoucher() {
+        return voucher;
     }
 
     private void calcularValorTotalDesconto()
@@ -60,82 +132,24 @@ public class Carrinho extends Entity{
         this.valorTotal = valorComDesconto;
     }
 
-    public boolean itemExistente(CarrinhoItem item){
-        if (item == null) {
-            throw new IllegalArgumentException("O item precisa ser informado");
+    private void calcularValorCarrinho()
+    {
+        for (var item: itens) {
+            this.valorTotal += item.calcularValor();
         }
-        for(var i : itens){
-            if(i.getProductId() == item.getProductId())
-                return true;
-        }
-
-        return false;
+        calcularValorTotalDesconto();
     }
 
-    public CarrinhoItem obterPorProdutoId(UUID produtoId){
-        if (produtoId == null) {
-            throw new IllegalArgumentException("O ID precisa ser informado");
-        }
-        for(var item : itens){
-            if(item.getProductId() == produtoId) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    public void adicionarItem(CarrinhoItem item){
+    private void atualizarItem(CarrinhoItem item){
         if (item == null) {
             throw new IllegalArgumentException("O item precisa ser informado");
         }
 
-        item.AtribuirCarrinho(this);
+        item.atribuirCarrinho(this);
 
-        if (itemExistente(item)){
-            var itemJaExistente = obterPorProdutoId(item.getProductId());
-            itemJaExistente.AdicionarUnidades(item.getQuantidade());
-            atualizarItem(itemJaExistente);
-        }else{
-            this.itens.add(item);
-        }
-    }
-
-    public void atualizarItem(CarrinhoItem item){
-        if (item == null) {
-            throw new IllegalArgumentException("O item precisa ser informado");
-        }
-
-        item.AtribuirCarrinho(this);
-
-        CarrinhoItem itemExistente = obterPorProdutoId(item.getProductId());
+        CarrinhoItem itemExistente = obterPorProdutoId(item.getProdutoId());
 
         this.itens.remove(itemExistente);
         this.itens.add(item);
-    }
-
-    public void atualizarUnidades(CarrinhoItem item, int unidades){
-        if (item == null) {
-            throw new IllegalArgumentException("O item precisa ser informado");
-        }
-        if(unidades < 0){
-            throw new IllegalArgumentException("A quantidade não pode ser menor que zero");
-        }
-        if(unidades == 0){
-            removerItem(item);
-        }
-
-        item.AtualizarUnidades(unidades);
-        atualizarItem(item);
-    }
-
-    public void removerItem(CarrinhoItem item){
-        if (item == null) {
-            throw new IllegalArgumentException("O item precisa ser informado");
-        }
-        this.itens.remove(obterPorProdutoId(item.getProductId()));
-    }
-
-    public List<CarrinhoItem> getListaProdutos() {
-        return itens;
     }
 }
