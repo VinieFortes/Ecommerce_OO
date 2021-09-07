@@ -39,11 +39,11 @@ class ClienteTest {
     }
     @Test
     void deveRetornarEmailCliente() {
-        assertEquals("marco@gmail.com", cliente.getEmail());
+        assertEquals(this.email, cliente.getEmail());
     }
     @Test
     void deveRetornarCPFCliente() {
-        assertEquals("10120230344", cliente.getCpf());
+        assertEquals(this.cpf, cliente.getCpf());
     }
     @Test
     void deveRetornarEnderecoCliente() {
